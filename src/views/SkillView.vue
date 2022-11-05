@@ -1,14 +1,15 @@
-
+<script setup></script>
 <template>
 
-<h2>Accueil</h2>
+<h2>skill</h2>
 
 </template>
+<style scoped>
 
 
-<style scoped >
 
 h2{
     font-size: 3rem;
 }
+
 </style>

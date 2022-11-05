@@ -1,17 +1,66 @@
 <script setup>
+  
+  
+
+
+
   import {
     RouterLink,
     RouterView
-  } from 'vue-router'
-  import Test from './components/Accueil.vue'
+  } from 'vue-router';
+
+// Function qui me permet de swip la première page d'accueil pour afficher le site
+  function swip(){
+    const content = document.querySelector('#content1')
+    content.style.transform= ' translateY(-2000px)'
+    document.querySelector('#smoke').style.opacity='0'
+    setTimeout(() => {
+      document.querySelector('#smoke').style.display='none'
+    }, 1000);
+    
+  }
 
 
-function swip(){
-  const content = document.querySelector('#content1')
-  content.style.transform= ' translateY(-2000px)'
-  document.querySelector('#smoke').style.opacity="0"
-  
-}
+  // la variable num va me permettre de changer le sens de la fleche du menu, elle prendra +1 à chaque clic
+  // et changera le sens de la fleche quand num est un nombre impair soit un clic sur deux.
+  // Voir function menu()
+  let num = 0 
+
+
+  // Function qui me permet d'afficher le menu et de le cacher en fonction de l'envie de l'utilisateur
+  function menu(){
+
+
+    const el = document.querySelector('#nav')
+    const el2 = document.querySelector('nav')
+    const menu = document.querySelector('#menu')
+    el.classList.toggle('w0')
+    el.classList.toggle('w320')
+    el2.classList.toggle('displayFlex')
+    el2.classList.toggle('displayNone')
+
+    
+    num++ 
+
+    if(num % 2 === 0 ){
+      menu.textContent='<'
+    }else{
+      menu.textContent='>'
+    }
+    
+
+    
+
+    
+
+    
+
+   
+  }
+
+
+
+
 
 
 </script>
@@ -22,7 +71,7 @@ function swip(){
   <div id="content1">
     <div id="header">
       <p>Pitois Guillaume</p>
-      <button @click="swip()" id="entrer">Entrer</button>
+      <button @click="swip()"  id="entrer">Entrer</button>
     </div>
 
     <figure>
@@ -37,51 +86,40 @@ function swip(){
   <div id="smoke"></div>
   <div id="content2">
     <header>
-      <img alt="Visage de la personne" class="logo" src="https://picsum.photos/200/300" width="240" height="240" />
-
-      <div id="moi">
-
-        <div id="identite">
-
-
-          <ul>
-            <li>
-              <p>Pitois</p>
-            </li>
-            <li>
-              <p>Guillaume</p>
-            </li>
-            <li>
-              <p>21 ans</p>
-            </li>
-          </ul>
-
-        </div>
+      <img alt="Visage de la personne" class="logo" src="https://picsum.photos/200/300" width="270" height="270" />
 
 
 
-        <div id="profession">
-          <p>Developper junior</p>
-          <div>Javascript </div>
-        </div>
 
-      </div>
-
-
-
-      <!-- <nav>
-        <RouterLink to="/">accueil</RouterLink>
-       
-      </nav> -->
+      
 
     </header>
 
-    <!-- 
-  <RouterView /> -->
+   
+  
     <main>
      
-      <!-- <div id="js"></div> -->
-      <div id="menu">menu</div>
+
+      <router-view />
+     
+  
+      
+  
+      <div class="fixed">
+        <div id="menu" @click="menu()"> {{'<'}} </div>
+        <div id="nav" class="w0">
+        
+          <nav class="displayNone">
+      <router-link style="margin-left: 12px; text-decoration: none;" to="/">Accueil</router-link> |
+      <router-link style="text-decoration: none;" to="/skill">Skills</router-link> |
+      <router-link style="text-decoration: none;" to="/sites">Projets</router-link> |
+      <router-link style="text-decoration: none;" to="/contact">Contact</router-link>
+     </nav>
+      
+      </div>
+      </div>
+     
+       
     </main>
 
 
@@ -90,25 +128,40 @@ function swip(){
 
 <style scoped>
 
-*{
-  /* font-family: 'Source Code Pro', monospace; */
-  font-family: 'Caveat', cursive;
+
+
+.displayNone{
+ 
+  opacity: 0;
+  transition: 0.1s ;
+}
+
+.displayFlex{
+
+  opacity: 1;
+  transition-delay: 0.3s;
   
+}
+
+.w0{
+  width: 0px;
+}
+
+.w320{
+  width: 320px
+}
+
+
+
+*{
+
+  font-family: 'Caveat', cursive;
+  color: #3e603d;
   font-weight: 900
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@800&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@700&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
 
 
-
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,900;1,800&display=swap');
-
-
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap');
 
 #smoke{
   width: 100%;
@@ -198,7 +251,7 @@ box-shadow:  35px 35px 70px #616161,
   #content2 {
     display: grid;
     width: 100%;
-    /* display: none; */
+    
     height: 100vh;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
@@ -215,7 +268,7 @@ box-shadow:  35px 35px 70px #616161,
 
   header {
     display: flex;
-    justify-content: end;
+    justify-content: center;
     align-items: center;
    
     width: 100%;
@@ -227,7 +280,7 @@ box-shadow:  35px 35px 70px #616161,
     min-height: 170px;
     color: #000;
     background: linear-gradient(145deg, #dadada, #ffffff);
-box-shadow:  7px 7px 8px #b6b6b6,
+    box-shadow:  7px 7px 8px #b6b6b6,
              -7px -7px 8px #ffffff;
   }
 
@@ -270,8 +323,7 @@ box-shadow:  7px 7px 8px #b6b6b6,
     border-radius: 50%;
     position: absolute;
     z-index: 1;
-    left: -36px;
-    top: -36px;
+   
     background: linear-gradient(145deg, #dadada, #ffffff);
 box-shadow:  7px 7px 8px #b6b6b6,
              -7px -7px 8px #ffffff;
@@ -284,6 +336,10 @@ box-shadow:  7px 7px 8px #b6b6b6,
     grid-area: 'main';
     background-color: #f2f2f2;
     box-shadow: inset 0px 0px 20px 2px #b7b7b7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
 
   }
 
@@ -314,18 +370,64 @@ box-shadow:  7px 7px 8px #b6b6b6,
     }
   }
 
-  #menu {
-    height: 50px;
-    width: 50px;
-    background: linear-gradient(145deg, #dadada, #ffffff);
-box-shadow:  7px 7px 8px #b6b6b6,
-             -7px -7px 8px #ffffff;
-    border-radius: 50%;
+  .fixed{
     position: fixed;
     right: 20px;
     bottom: 20px;
     display: flex;
+    height: 50px;
+    justify-content: space-between;
+    align-items: center;
+    
+    
+
+  }
+
+  #menu {
+    height: 50px;
+    width: 50px;
+    background: linear-gradient(145deg, #dadada, #ffffff);
+    box-shadow:  7px 7px 8px #b6b6b6,
+    -7px -7px 8px #ffffff;
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+    font-weight: 900;
+    font-size: 1.5rem;
+    display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 2;
+    transition: 0.2s linear;
   }
+
+    #nav{
+    
+    
+    transition: 0.4s linear;
+    
+    left: 0;
+    font-size: 0.8rem;
+    height: 40px;
+    
+   
+
+    background: linear-gradient(145deg, #dadada, #ffffff);
+    box-shadow:  7px 7px 8px #b6b6b6,
+    -7px -7px 8px #ffffff;
+    border-radius: 50px;
+    
+  }
+
+  nav{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+    height: 40px;
+    display: flex;
+    transition: 0.2s linear;
+  }
+
+ 
 </style>
