@@ -165,7 +165,7 @@
 
 #smoke{
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   position: absolute;
   opacity: 1;
   transition: 0.8s linear;
@@ -176,7 +176,7 @@
 #content1{
   background-color: #f2f2f2;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   position: absolute;
   z-index: 3;
   display: flex;
@@ -252,7 +252,7 @@ box-shadow:  35px 35px 70px #616161,
     display: grid;
     width: 100%;
     
-    height: 100vh;
+    min-height: 100vh;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
     grid-template-areas:

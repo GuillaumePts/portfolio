@@ -70,20 +70,53 @@ function security(){
 
 
 
-
-        if(validEmail.length>1 && validNom.length>1 && validMsg.length>1){
+        // Si les variables de vérification contiennent leurs valeurs vérifié on fait le fetch Post et on réinitialise tout
+        if(validEmail.length>1 && validNom.length>1 && validMsg.length>1 ){
             send(validEmail,validNom,validMsg)
+            document.querySelector('#errMsg').textContent=''
+            document.querySelector('#errNom').textContent=''
+            document.querySelector('#errEmail').textContent=''
+            document.querySelector('#email').value=''
+            document.querySelector('#nom').value=''
+            document.querySelector('#msg').value=''
+            
         }
             
         
 }
 
+// Function qui fait le fetch post pour envoyer les valeurs vérifié cotés server
     function send(email,nom,msg) {
-        let n1 = email
-        let n2 = nom
-        let n3 = msg
 
-        console.log(n3+'  '+n2+'  '+n1);
+        // L'objet à envoyer
+        let data = {
+            mail:email,
+            lenom : nom,
+            lemsg: msg
+        }
+
+        // Fetch post 
+        fetch('https://192.168.1.21:9999/',{
+            method:'POST',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.text())
+        .then(function(contenu){
+
+        // Reponse du server si bon ou pas bon
+                document.querySelector('#send').style.display= 'none'
+                document.querySelector('#reponse').textContent= contenu
+            
+
+            setTimeout(() => {
+                document.querySelector('#send').style.display= 'block'
+                document.querySelector('#reponse').textContent= ''
+            }, 10000);
+        })
 
      
 
@@ -103,6 +136,7 @@ function security(){
             <textarea name="msg" id="msg"></textarea>
             <span id="errMsg"></span>
             <div @click="security()" id="send">Envoyer !</div>
+            <span id="reponse"></span>
         </form>
     </div>
 </template>
@@ -157,6 +191,13 @@ function security(){
             padding: 10px 20px;
     }
 
+    #reponse{
+        color: #3e603d;
+        width: 90%;
+        max-width: 300px;
+        margin: 0 auto 10px auto;
+    }
+
     form textarea{
         border-radius: 20px;
         background: linear-gradient(145deg, #dadada, #ffffff);
@@ -171,5 +212,5 @@ function security(){
         font-size: 1.2rem;
     }
 
-    
+
 </style>
