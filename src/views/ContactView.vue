@@ -42,25 +42,37 @@ function security(){
         }else if(nom.length > 30){
             document.querySelector('#errNom').textContent='Nom non conforme (trop long)'
         }else if(nom.match(/<\/?[^>]+(>|$)/g)){
-          
+        
             document.querySelector('#errNom').textContent='Nom non conforme'
 
         }else if(nom.match(/^[a-zA-Z]+$/)){
             
             validNom = nom
             
-
-            
-
-            
-
-            
         }else{
             document.querySelector('#errNom').textContent='Nom non conforme'
         }
 
-        if(validEmail.length>1 && validNom.length>1){
-            send(validEmail,validNom)
+
+        // on securise le message
+        if(msg === ''){
+
+            document.querySelector('#errMsg').textContent='Veuillez renseigner ce champ'
+        }else if(msg.length > 300){
+            document.querySelector('#errMsg').textContent='Message trop long, preferez m\'envoyer un mail'
+        }else if(msg.match(/<\/?[^>]+(>|$)/g)){
+            document.querySelector('#errMsg').textContent='Message non conforme'
+        }else{
+            validMsg = msg
+        }
+
+
+
+
+
+
+        if(validEmail.length>1 && validNom.length>1 && validMsg.length>1){
+            send(validEmail,validNom,validMsg)
         }
             
         
@@ -69,11 +81,11 @@ function security(){
     function send(email,nom,msg) {
         let n1 = email
         let n2 = nom
-        let n3 = 'test'
+        let n3 = msg
 
         console.log(n3+'  '+n2+'  '+n1);
 
-        good = 0
+     
 
     }
 </script>
@@ -89,6 +101,7 @@ function security(){
             <input type="text" name="nom" id="nom">
             <span id="errNom"></span>
             <textarea name="msg" id="msg"></textarea>
+            <span id="errMsg"></span>
             <div @click="security()" id="send">Envoyer !</div>
         </form>
     </div>
@@ -132,6 +145,10 @@ function security(){
 
     }
 
+    form span{
+        color: rgb(133, 34, 34);
+    }
+
     form #send{
         border-radius: 54px;
         background: linear-gradient(145deg, #dadada, #ffffff);
@@ -151,5 +168,8 @@ function security(){
         margin-top: 20px;
         padding: 10px 20px;
         min-height: 100px;
+        font-size: 1.2rem;
     }
+
+    
 </style>
